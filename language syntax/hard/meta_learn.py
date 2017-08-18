@@ -1,0 +1,80 @@
+"""
+АДВЕНС ШЫТ
+"""
+
+class MetaTest(type):
+
+    def __new__(cls, name, bases, dict): # создание класса
+        klass = super(MetaTest, cls).__new__(cls, name, bases, dict)
+        print("__new__(%r, %r, %r) -> %r" % (name, bases, dict, klass))
+        return klass
+
+    def __init__(cls, name, bases, dict): # инициализация класса
+        super(MetaTest, cls).__init__(name, bases, dict)
+        print("__init__(%r, %r, %r)" % (name, bases, dict))
+
+    def __call__(cls, *args, **kwargs): # создание экз объекта
+        obj = super(MetaTest, cls).__call__(*args, **kwargs)
+        print("__call__(%r, %r) -> %r" % (args, kwargs, obj))
+        return obj
+
+class Test_class(metaclass=MetaTest):
+    pass
+
+test = Test_class()
+
+'''
+Метакласс AutoSuper добавляет приватный атрибут __super для доступа к атрибутам и методам базовых классов
+'''
+
+class AutoSuper(type):
+
+    def __init__(cls, name, bases, dict):
+        super(AutoSuper, cls).__init__(name, bases, dict)
+        setattr(cls, "_%s__super" % name, super(cls)) # mangling - искажение артибута, псевдочастный атрибут
+
+class A(metaclass=AutoSuper):
+    def method(self):
+        return "A"
+
+class B(A):
+    def method(self):
+        return "B" + self.__super.method()
+
+print(B().method())
+
+'''
+Метакласс, устанавливающий атрибуты для объектов создаваемых классом без необходимости определения конструктора класса
+'''
+
+class AttrInit(type):
+
+    def __call__(cls, **kwargs):
+        obj = super(AttrInit, cls).__call__()
+        for name, value in kwargs.items():
+            setattr(obj, name, value)
+        return obj
+
+
+class Message(metaclass=AttrInit):
+    pass
+
+
+class ResultRow(metaclass=AttrInit):
+    pass
+
+
+msg = Message(type='text', text='text body')
+print(msg.type)
+print(msg.text)
+row = ResultRow(id=1, name='John')
+print(row.id)
+print(row.name)
+
+'''
+Такой метакласс может быть полезен для создания классов объекты которых служат в основном как хранилище атрибутов.
+Например, классов описывающих передаваемые по сети пакеты данных,
+или строки результата запроса к базе данных к полям которых удобнее обращаться как к атрибутам.
+Таким образом, метаклассы позволяют создавать классы с достаточно необычным поведением,
+но в тоже время вряд ли стоит их использовать в каждой программе.
+'''

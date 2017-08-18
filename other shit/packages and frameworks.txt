@@ -1,0 +1,4 @@
+Tornado, Flask, MongoDB, Motor, RabbitMQ (Pika), Elasticsearch
+
+
+пакеты в колёсах http://www.lfd.uci.edu/%7Egohlke/pythonlibs/
