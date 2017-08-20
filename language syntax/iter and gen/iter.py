@@ -1,6 +1,7 @@
 '''
 iter - просто итерируемый объект (перечисляемый), эти контейнеры поддерживают функцию len
-iter, next - итератор, генерирует значения по требованию, а не все сразу. итераторы не знают сколько в них элементов (что за значекние будет следующее)
+iter, next - итератор, генерирует значения по требованию, а не все сразу. итераторы не знают сколько
+в них элементов (что за значекние будет следующее)
 
 В Python (и не только в нем) есть два понятия, которые звучат практически одинаково, но обозначают разные вещи, — iterator и iterable.
 Первое — это объект, который реализует описанный выше интерфейс, а второе — контейнер, который может служить источником данных для итератора.
@@ -52,7 +53,7 @@ f = open('test-open-file.txt')
 
 print(iter(f) is f)
 
-print(f.__next__())
+print(f.__next__()).rstrip()
 print(f.__next__())
 print('-' * 40)
 
@@ -69,19 +70,26 @@ print(lines)
 lines = [line.rstrip() for line in open('test-open-file.txt') if 'shit' in line]
 print(lines)
 print([x + y for x in 'abc' for y in 'lmn'])
+print('-' * 40)
 '''
 Если файл открыть внутри выражения, генератор списков автоматически будет использовать итерационный протокол,
 с которым мы познакомились выше в этой главе. То есть он будет читать из файла по одной строке за раз – вызовом
 метода __next__ файла, пропускать строку через функцию rstrip и добавлять результат в список.
-И снова мы получаем именно то, что запрашиваем, – результат работы метода rstrip для каждой строкив файле.
+И снова мы получаем именно то, что запрашиваем – результат работы метода rstrip для каждой строки в файле.
 '''
+
+
+# iterators
 map_iter_obj = map(str.upper, open('test-open-file.txt'))
 print(map_iter_obj, list(map_iter_obj))
+
 enum_iter_obj = enumerate(open('test-open-file.txt'))
 print(enum_iter_obj, list(enum_iter_obj))
+
 X = (1, 2)
 Y = (3, 4)
-zip_iter_obj = zip(X, Y)
+Z = (5, 6, 7)
+zip_iter_obj = zip(X, Y, Z)
 print(zip_iter_obj, list(zip_iter_obj))
 print('-' * 40)
 
@@ -91,7 +99,7 @@ print('-' * 40)
 print(tuple(open('test-open-file.txt')))
 print(set(open('test-open-file.txt')))
 a, *b = open('test-open-file.txt')
-print(a, b)
+print(a, b, sep='')
 
 '''
 Генераторы кортежей, множеств и словарей
