@@ -1,5 +1,5 @@
 import math
-print()
+
 '''
 Flyweight design pattern: Slots
 '''

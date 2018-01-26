@@ -4,19 +4,20 @@ global_var = True
 
 def test():
     global_var = False # объявлена локальная переменная
-    print('local:', global_var, end=', ')
+    print('local:', global_var)
 
 test()
 print('global:', global_var, '| global var no changed', '\n')
 
 
 print('Test №2')
+
 global_var2 = True
 
 def try_global():
     global global_var2 # через запятую можно несколько
     global_var2 = False # переопределяем глобальную переменную
-    print('local:', global_var2, end=', ')
+    print('local:', global_var2)
 
 try_global()
 print('global:', global_var2, '| global var changed', '\n')
@@ -32,7 +33,7 @@ def try_nonlocal():
 
     print('local var:', local_var)
     inner()
-    print('func inner change local var:', local_var, end='  ')
+    print('func inner change local_var:', local_var)
 
 try_nonlocal()
 
