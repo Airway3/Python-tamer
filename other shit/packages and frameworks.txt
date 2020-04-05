@@ -1,6 +1,0 @@
-Tornado, Flask, MongoDB, Motor, RabbitMQ (Pika), Elasticsearch
-
-
-очень полезный блог по питону http://jenyay.net/Programming/Python
-
-пакеты в колёсах http://www.lfd.uci.edu/%7Egohlke/pythonlibs/
