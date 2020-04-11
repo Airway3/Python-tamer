@@ -51,7 +51,6 @@ def __delattr__(self, name): Удаление любого атрибута
 '''
 
 
-
 class Person:
     def __init__(self, name):
         self._name = name
@@ -89,13 +88,17 @@ print(Person.name.__doc__)
 
 print('-' * 40)
 
+
 class GetAttr:
     attr1 = 1
+
     def __init__(self):
         self.attr2 = 2
-    def __getattr__(self,attr): # Только для неопределенных атрибутов
-        print('get: ' + attr) # Не attr1: наследуется от класса
-        return 3 # Не attr2: хранится в экземпляре
+
+    def __getattr__(self, attr):  # Только для неопределенных атрибутов
+        print('get: ' + attr)  # Не attr1: наследуется от класса
+        return 3  # Не attr2: хранится в экземпляре
+
 
 X = GetAttr()
 print(X.attr1)
@@ -104,18 +107,20 @@ print(X.attr3)
 
 print('-' * 40)
 
+
 class GetAttribute(object):
     attr1 = 1
 
     def __init__(self):
         self.attr2 = 2
 
-    def __getattribute__(self, attr): # Вызывается всеми операциями присваивания
-        print('get: ' + attr) # Для предотвращения зацикливания
-        if attr == 'attr3': # используется суперкласс
+    def __getattribute__(self, attr):  # Вызывается всеми операциями присваивания
+        print('get: ' + attr)  # Для предотвращения зацикливания
+        if attr == 'attr3':  # используется суперкласс
             return 3
         else:
             return object.__getattribute__(self, attr)
+
 
 Y = GetAttribute()
 print(Y.attr1)

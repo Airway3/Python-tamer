@@ -4,8 +4,9 @@ import math
 Flyweight design pattern: Slots
 '''
 
+
 class Circle(object):
-    'An advanced circle analytic toolkit'
+    """ An advanced circle analytic toolkit """
 
     __slots__ = ['diameter'] # экземпляры без словаря (не можем добавл атр и инспектировать словарь),
     # а выделяется один указатель под диаметр. Слоты не наследуются
@@ -19,7 +20,7 @@ class Circle(object):
     '''
     @property
     def radius(self):
-        'Radius of sircle'
+        """ Radius of sircle """
         return self.diameter / 2.0
 
     @radius.setter
@@ -56,7 +57,7 @@ class Circle(object):
 
     @classmethod
     def from_bbd(cls, bbd):
-        'Construct a circle from a bounding box diagonal'
+        """ Construct a circle from a bounding box diagonal """
         radius = bbd / 2.0 / math.sqrt(2.0) # приводим диагональ к радиусу
         return cls(radius) # было Circle(radius), но а если вызов через наследника? для поддержки наследования исп cls
 
@@ -64,16 +65,16 @@ class Circle(object):
     Просто закрепление функции за классом
     '''
     @staticmethod
-    def angle_to_grade(angle): # цель статик метода - присоединить функц классам,  не привязывать к экземпляру
-        'Convert angle in degree to a percentage grade'
-        return math.tan(math.radians(angle)) * 100.0 # мы просто добавляем нужный инструмент в наш класс, но не для работы с кругами
+    def angle_to_grade(angle):  # цель статик метода - присоединить функц классам,  не привязывать к экземпляру
+        """ Convert angle in degree to a percentage grade """
+        return math.tan(math.radians(angle)) * 100.0  # мы просто добавляем нужный инструмент в наш класс, но не для работы с кругами
 
 
 class Tire(Circle):
-    'Tires are circles with a corrected perimeter'
+    """ Tires are circles with a corrected perimeter' """
 
     def perimeter(self):
-        'Circumference corrected for the rubber'
+        """ Circumference corrected for the rubber """
         return Circle.perimeter(self) * 1.25
 
     __perimeter = perimeter # _Tire__perimeter

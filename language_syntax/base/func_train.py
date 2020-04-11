@@ -1,7 +1,10 @@
+
+
 def f(immutable):
     print(immutable, id(immutable))
     immutable += 100
     print(immutable, id(immutable))
+
 
 b = 5
 f(b)
@@ -13,6 +16,7 @@ def f2(lis):
     print(lis, id(lis))
     lis = lis + [200] # create new lis LOCAL variable
     print(lis, id(lis)) # local lis id
+
 
 c = []
 f2(c)

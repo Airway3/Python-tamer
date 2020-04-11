@@ -39,52 +39,58 @@ print(type(a))
 
 
 class MetaTest(type):
-
-    def __new__(cls, name, bases, dict): # создание класса
+    def __new__(cls, name, bases, dict):  # создание класса
         klass = super(MetaTest, cls).__new__(cls, name, bases, dict)
         print("__new__(%r, %r, %r) -> %r" % (name, bases, dict, klass))
         return klass
 
-    def __init__(cls, name, bases, dict): # инициализация класса
+    def __init__(cls, name, bases, dict):  # инициализация класса
         super(MetaTest, cls).__init__(name, bases, dict)
         print("__init__(%r, %r, %r)" % (name, bases, dict))
 
-    def __call__(cls, *args, **kwargs): # создание экз объекта
+    def __call__(cls, *args, **kwargs):  # создание экз объекта
         obj = super(MetaTest, cls).__call__(*args, **kwargs)
         print("__call__(%r, %r) -> %r" % (args, kwargs, obj))
         return obj
 
-class Test_class(metaclass=MetaTest):
+
+class TestClass(metaclass=MetaTest):
     pass
 
-test = Test_class()
+
+test = TestClass()
+
 
 '''
 Метакласс AutoSuper добавляет приватный атрибут __super для доступа к атрибутам и методам базовых классов
 '''
 
-class AutoSuper(type):
 
+class AutoSuper(type):
     def __init__(cls, name, bases, dict):
         super(AutoSuper, cls).__init__(name, bases, dict)
-        setattr(cls, "_%s__super" % name, super(cls)) # mangling - искажение артибута, псевдочастный атрибут
+        setattr(cls, "_%s__super" % name, super(cls))  # mangling - искажение артибута, псевдочастный атрибут
+
 
 class A(metaclass=AutoSuper):
     def method(self):
         return "A"
 
+
 class B(A):
     def method(self):
         return "B" + self.__super.method()
 
+
 print(B().method())
+
 
 '''
 Метакласс, устанавливающий атрибуты для объектов создаваемых классом без необходимости определения конструктора класса
 '''
 
-class AttrInit(type):
 
+class AttrInit(type):
     def __call__(cls, **kwargs):
         obj = super(AttrInit, cls).__call__()
         for name, value in kwargs.items():
