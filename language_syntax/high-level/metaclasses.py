@@ -58,7 +58,7 @@ class TestClass(metaclass=MetaTest):
     pass
 
 
-test = TestClass()
+test = TestClass()  # meta class __call__
 
 
 '''
@@ -70,16 +70,23 @@ class AutoSuper(type):
     def __init__(cls, name, bases, dict):
         super(AutoSuper, cls).__init__(name, bases, dict)
         setattr(cls, "_%s__super" % name, super(cls))  # mangling - искажение артибута, псевдочастный атрибут
+        print(dict)
 
 
 class A(metaclass=AutoSuper):
     def method(self):
         return "A"
 
+    def a_method(self):
+        pass
+
 
 class B(A):
     def method(self):
         return "B" + self.__super.method()
+
+    def b_method(self):
+        pass
 
 
 print(B().method())
