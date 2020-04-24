@@ -6,7 +6,7 @@ to_monitor = []  # список объектов (сокетов), которы�
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server_socket.bind(('localhost', 5001))  # создаём файл сокета
+server_socket.bind(('localhost', 5000))  # создаём файл сокета
 server_socket.listen(10)
 
 
@@ -26,6 +26,7 @@ def send_message(client_socket):
         client_socket.send(response)  # пишет в буфер отправки, событие - очистка буфера отправки,
                                       # т.е. готовность сокета туда что-то записывать
     else:
+        to_monitor.remove(client_socket)
         client_socket.close()
 
 

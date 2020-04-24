@@ -40,7 +40,7 @@ print('=' * 100)
 # Кроме того, подобно инструкции def, import и from – это явные операции присваивания!
 
 
-from language_syntax.base.moduls.hi_friend import x, y # Скопировать имя x и y, также видим что выполнился
+from language_syntax.base.modules.hi_friend import x, y # Скопировать имя x и y, также видим что выполнился
 # модуль hi_friend, а также файлы инит каждого пакета, в них формируется неймспейс каждого пакета
 # from .hi_friend import x, y # можно использовать импорт относительно пакета moduls
 
@@ -65,7 +65,7 @@ from importlib import reload
 print(reload(hi_friend).__dict__['x'])
 print('=' * 100)
 
-import language_syntax.base.moduls
+import language_syntax.base.modules
 # Каждый каталог в пути фактически становится переменной, которой присваивается объект модуля,
 # пространство имен которого инициализируется всеми инструкциями присваивания в файле __init__.py
 print(language_syntax.__dict__.keys())
