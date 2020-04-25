@@ -41,7 +41,7 @@ print('=' * 100)
 def subgen2():
     while True:
         try:
-            print('subgen')
+            print('subgen2')
             message = yield
         except CustomException:
             print('Kaboom')
@@ -53,7 +53,7 @@ def subgen2():
 def delegator2(g):
     while True:
         try:
-            print('delegator')
+            print('delegator2')
             data = yield
             g.send(data)
         except CustomException as e:
@@ -64,8 +64,8 @@ sg = subgen2()
 d = delegator2(sg)
 
 print('after init_gen inner call')
-d.send('OK')
-d.throw(CustomException)
+print(d.send('OK'), 'return None')
+print(d.throw(CustomException), 'return None')
 
 
 print('=' * 100)
@@ -74,7 +74,7 @@ print('=' * 100)
 def subgen3():
     while True:
         try:
-            print('subgen')
+            print('subgen3')
             message = yield
         except CustomException:
             print('Kaboom')
@@ -101,15 +101,15 @@ print('=' * 100)
 def subgen4():
     while True:
         try:
-            print('subgen')
+            print('subgen4')
             message = yield
         except CustomException:
             print('Kaboom')
-            # break
+            break
         else:
             print('........', message)
 
-    # return 'subgen result'
+    return 'subgen4 result'
 
 
 @init_gen
@@ -120,9 +120,10 @@ def delegator4(g):
 
 sg = subgen4()
 d = delegator4(sg)
-
+# for e in d:
+#     print(e)
 print('after init_gen inner call')
-d.send('OK')
+print(d.send('OK'), 'return None')
 print(d.throw(CustomException))
 print(d.throw(CustomException))
 print(d.send('finish'))
@@ -131,7 +132,7 @@ print(d.send('finish'))
 print('=' * 100)
 
 
-@init_gen
+# @init_gen
 def alligator():
     yield from 'Alligator'
 
