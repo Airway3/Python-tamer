@@ -5,7 +5,7 @@
 """
 
 
-def coroutine(func):
+def init_gen(func):
     def inner(*args, **kwargs):
         g = func(*args, **kwargs)
         g.send(None)
@@ -37,7 +37,7 @@ for i in d:
 print('=' * 100)
 
 
-@coroutine
+@init_gen
 def subgen2():
     while True:
         try:
@@ -49,7 +49,7 @@ def subgen2():
             print('........', message)
 
 
-@coroutine
+@init_gen
 def delegator2(g):
     while True:
         try:
@@ -63,7 +63,7 @@ def delegator2(g):
 sg = subgen2()
 d = delegator2(sg)
 
-print('after coroutine init')
+print('after init_gen inner call')
 d.send('OK')
 d.throw(CustomException)
 
@@ -82,15 +82,15 @@ def subgen3():
             print('........', message)
 
 
-@coroutine
+@init_gen
 def delegator3(g):
-    yield from g  # содержит в себе инициализацию генератора, поэтому не нужен декоратор в subgen2
+    yield from g  # содержит в себе инициализацию генератора, поэтому не нужен декоратор в subgen3
 
 
 sg = subgen3()
 d = delegator3(sg)  # здесь же отработает первый send(None) у subgen3
 
-print('after coroutine init')
+print('after init_gen inner call')
 d.send('OK')
 d.throw(CustomException)
 
@@ -112,7 +112,7 @@ def subgen4():
     # return 'subgen result'
 
 
-@coroutine
+@init_gen
 def delegator4(g):
     result = yield from g  # ждём пока генератор завершит свою работу - await
     print(result)
@@ -121,7 +121,7 @@ def delegator4(g):
 sg = subgen4()
 d = delegator4(sg)
 
-print('after coroutine init')
+print('after init_gen inner call')
 d.send('OK')
 print(d.throw(CustomException))
 print(d.throw(CustomException))
@@ -131,7 +131,7 @@ print(d.send('finish'))
 print('=' * 100)
 
 
-@coroutine
+@init_gen
 def alligator():
     yield from 'Alligator'
 

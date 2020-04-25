@@ -3,6 +3,9 @@ from inspect import getgeneratorstate
 
 """
 Корутины - генераторы которые могут получать данные. через метод send.
+Является средством обеспечения «легковесной» программной многопоточности в том смысле, 
+что могут быть реализованы без использования механизмов переключений контекста операционной системы.
+
 Первый раз нужно передавать None. Это обязательное действие. Можно первый раз использовать next вместо send(None).
 """
 
@@ -37,7 +40,7 @@ print(g.send(None))
 print('=' * 100)
 
 
-def coroutine(func):
+def init_gen(func):
     def inner(*args, **kwargs):
         g = func(*args, **kwargs)
         g.send(None)
@@ -49,7 +52,7 @@ class CustomException(Exception):
     pass
 
 
-@coroutine
+@init_gen
 def average():
     count = 0
     summ = 0
