@@ -1,5 +1,6 @@
 import asyncio
 
+
 # 3.5 async/await syntax
 
 
@@ -26,6 +27,9 @@ async def main():
     task2 = asyncio.create_task(print_time())
 
     await asyncio.gather(task1, task2)  # дожидаемся результата
+
+    # можно и так было, gather сам оборачивает корутины в future
+    # await asyncio.gather(print_nums(), print_time())
 
 
 if __name__ == '__main__':
